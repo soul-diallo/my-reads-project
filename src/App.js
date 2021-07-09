@@ -2,7 +2,6 @@ import React from 'react'
 import { Route } from "react-router-dom";
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import Books from "./component/books";
 import ListBooks from "./component/ListBooks";
 import SearchBooks from "./component/SearchBooks";
 
@@ -12,10 +11,10 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-      this.fetch_books_details()
+      this.fetchBookDetails()
   }
 
-    fetch_books_details = ()=> {
+    fetchBookDetails = ()=> {
         BooksAPI.getAll().then((books) => {
             this.setState({Books: books})
         })
@@ -23,28 +22,16 @@ class BooksApp extends React.Component {
 
     updateBookDetails = (book, shelf) => {
       BooksAPI.update(book,shelf).then(() => {
-          this.fetch_books_details()
+          this.fetchBookDetails()
         })
     }
 
     render() {
     return (
         <div className="app">
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-          <Route exact path="/" render={() => (
-              <ListBooks/>
-          )}
+          <Route exact path="/" render={() => (<ListBooks books={this.state.Books} onChange={this.updateBookDetails}/>)}/>
+          <Route path="/search" render={() => (<SearchBooks onChange={this.updateBookDetails} myBooks={this.state.Books}/>)}/>
 
-          />
-          <Route path="/search" render={({ history }) => (
-              <SearchBooks />
-          )}
-
-          />
-        </div>
         </div>
     )
   }
