@@ -4,6 +4,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListBooks from "./component/ListBooks";
 import SearchBooks from "./component/SearchBooks";
+import BookList from "./component/BookList";
 
 class BooksApp extends React.Component {
   state = {
@@ -30,6 +31,7 @@ class BooksApp extends React.Component {
     return (
         <div className="app">
           <Route exact path="/" render={() => (<ListBooks books={this.state.Books} onChange={this.updateBookDetails}/>)}/>
+          <Route exact path="/local" render={() => (<BookList books={this.state.Books} onChange={this.updateBookDetails}/>)}/>
           <Route path="/search" render={() => (<SearchBooks onChange={this.updateBookDetails} myBooks={this.state.Books}/>)}/>
 
         </div>
